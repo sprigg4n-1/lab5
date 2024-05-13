@@ -1,22 +1,40 @@
-import { User } from '../../types';
 import { AdminCounter } from './AdminCounter';
-import { ProcessUsers } from './ProcessUsers';
 import { UserC } from './UserC';
 
 export class UserListProcessor {
   private users: UserC[] = [];
-  private _process: ProcessUsers;
 
   private adminCounter: AdminCounter;
 
   constructor(users: UserC[]) {
     this.users = users;
-    this.process = new ProcessUsers(this.users);
     this.adminCounter = new AdminCounter();
   }
 
+  public processUserList(): void {
+    this.processUsers();
+  }
+
+  private processUsers(): void {
+    this.users.forEach(({ username }: UserC) => {
+      this.processUser(username);
+    });
+  }
+
+  private processUser(username: string): void {
+    if (this.checkForAdmin(username)) {
+      console.log(`Admin user detected!`);
+    } else {
+      console.log(`Processing user: ${username}`);
+    }
+  }
+
+  private checkForAdmin(username: string): boolean {
+    return username === 'admin';
+  }
+
   public countAdminUsers(): number {
-    return this.users.filter((user) => user.username === 'admin').length;
+    return this.adminCounter.amountAdminUsers(this.users);
   }
 
   public addUser(user: UserC): void {
@@ -30,12 +48,5 @@ export class UserListProcessor {
 
   public getUsers(): UserC[] {
     return this.users;
-  }
-
-  public get process(): ProcessUsers {
-    return this._process;
-  }
-  public set process(value: ProcessUsers) {
-    this._process = value;
   }
 }

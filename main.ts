@@ -40,7 +40,7 @@ const adminUser = new UserC({
 const userListProcessor: UserListProcessor = new UserListProcessor(users);
 
 console.log(`First ====== `);
-userListProcessor.process.processUserList();
+userListProcessor.processUserList();
 userListProcessor.countAdminUsers();
 userListProcessor.sendEmailToUser(
   userListProcessor.getUsers()[0],
@@ -49,7 +49,7 @@ userListProcessor.sendEmailToUser(
 
 console.log(`Second ====== `);
 userListProcessor.addUser(adminUser);
-userListProcessor.process.processUserList();
+userListProcessor.processUserList();
 userListProcessor.countAdminUsers();
 userListProcessor.sendEmailToUser(
   userListProcessor.getUsers()[3],
